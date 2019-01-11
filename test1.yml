@@ -1,5 +1,5 @@
 ---
-- hosts: phldvlxsand001
+- hosts: all
   become: true
   tasks:
     - command: /usr/sbin/tcpdump -c1
