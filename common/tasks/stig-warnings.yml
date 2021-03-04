@@ -1,0 +1,25 @@
+## These checks are also done in the STIG roles. Keeping them here for daily runs ##
+## See STIG roles for details and doc ##
+
+# must have exception for non enforcing 
+- name: Check SELinux Status
+  command: /usr/sbin/getenforce
+  register: sel_status
+  changed_when: false
+  failed_when: sel_status.stdout | length == 0
+
+- name: Warn when SELinux not enforcing
+  debug: msg="WARN - {{ inventory_hostname }} - SELinux is not set to enforcing!!"
+  when: sel_status.stdout != 'Enforcing'
+
+#must have exception to enable 
+- name: Check FIPS is enabled
+  command: /sbin/sysctl -n crypto.fips_enabled
+  register: fips_status
+  changed_when: false
+  failed_when: fips_status.rc != 0
+- name: Warn when FIPS is disabled
+  debug: msg="WARN - {{ inventory_hostname }} - FIPS is disabled!!"
+  when: fips_status.stdout != '1' and ansible_distribution_major_version != '8'
+
+# to enable FIPS RHEL8: /usr/bin/fips-mode-setup --enable

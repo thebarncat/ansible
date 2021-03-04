@@ -1,0 +1,6 @@
+- name: copy chrony.conf 
+  template:
+      src=chrony.conf.j2 dest=/etc/chrony.conf
+      owner=root group=root mode=0644
+      backup=yes
+  notify: restart_chronyd

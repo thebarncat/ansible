@@ -1,0 +1,30 @@
+
+- name:  CGV RHEL7 rule B network
+  template: src=rule-ens224-cgv-rhel7.j2 dest=/etc/sysconfig/network-scripts/rule-ens224 mode=0644
+  when: ('CGV' in group_names) and ('RHEL7' in group_names) and ('PHYSICAL' not in group_names) 
+#  notify:  restart_interface224
+
+- name:  PLZ RHEL7 rule B network
+  template: src=rule-ens224-plz-rhel7.j2 dest=/etc/sysconfig/network-scripts/rule-ens224 mode=0644
+  when: ('PLZ' in group_names) and ('RHEL7' in group_names) and ('PHYSICAL' not in group_names)
+#  notify:  restart_interface224
+
+- name:  CGV RHEL8 rule B network
+  template: src=rule-ens225-cgv-rhel8.j2 dest=/etc/sysconfig/network-scripts/rule-ens225 mode=0644
+  when: ('CGV' in group_names) and ('RHEL8' in group_names)
+#  notify:  restart_interface225
+
+- name:  PLZ RHEL8 rule B network
+  template: src=rule-ens225-plz-rhel8.j2 dest=/etc/sysconfig/network-scripts/rule-ens225 mode=0644
+  when: ('PLZ' in group_names) and ('RHEL8' in group_names)
+#  notify:  restart_interface225
+  
+- name:  CGV PHYS rule B network
+  template: src=rule-bond2-cgv-rhel7.j2 dest=/etc/sysconfig/network-scripts/rule-bond2 mode=0644
+  when: ('CGV' in group_names) and ('RHEL7' in group_names) and ('PHYSICAL' in group_names)
+#  notify:  restart_interfacebond2
+
+- name:  PLZ PHYS rule B network
+  template: src=rule-bond2-plz-rhel7.j2 dest=/etc/sysconfig/network-scripts/rule-bond2 mode=0644
+  when: ('PLZ' in group_names) and ('RHEL7' in group_names) and ('PHYSICAL' in group_names)
+#  notify:  restart_interfacebond2

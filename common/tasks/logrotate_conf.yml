@@ -1,0 +1,9 @@
+---
+- name: logrotate.conf config 
+  replace:
+    path: /etc/logrotate.conf
+    regexp: "{{ item.regex }}"
+    replace: "{{ item.line }}"
+  loop:
+    - { regex: '^rotate\s+(.*)$', line: 'rotate 4' }
+    - { regex: '^#(.*)compress$', line: 'compress' }

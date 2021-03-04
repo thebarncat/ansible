@@ -1,0 +1,34 @@
+---
+- name: Splunk Forwarder RHEL7
+  lineinfile:
+   path: /etc/rsyslog.d/splunk.conf
+   line: "*.* @@cgvsplunklog.kmhp.com:1008"
+   create: yes
+  #when: ('CGV_DMZ' not in group_names) or ('PLZ_DMZ' not in group_names)
+  when: 
+   - "'CGV_DMZ' not in group_names" 
+   - "'PLZ_DMZ' not in group_names"
+  notify:  restart_syslog
+
+- name: Splunk Forwarder DMZ 
+  replace:
+    path: /etc/rsyslog.d/splunk.conf
+    after: 'splunklog\.'
+    regexp: 'kmhp'
+    replace: 'acfcd'
+  when: ('CGV_DMZ' in group_names) or ('PLZ_DMZ' in group_names)
+  notify:  restart_syslog
+
+- name: Splunk Forwarder RHEL8 
+  template:
+    src=rsyslog_splunk-rhel8.conf dest=/etc/rsyslog.d/splunk.conf
+    mode=0644
+  when: "'RHEL8' in group_names"
+  notify:  restart_syslog
+
+- name: Copy aide2splunk.conf
+  template:
+      src=aide2splunk.conf.j2 dest=/etc/rsyslog.d/aide2splunk.conf
+      owner=root group=root mode=0644
+      backup=no
+    

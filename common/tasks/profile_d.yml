@@ -1,0 +1,10 @@
+
+# STIG EXCEPTION for Sybase. See rhel7-stig role for details
+- name: tmout.sh sybase 
+  copy: src=/etc/ansible/files/etc/profile.d/tmout.sh.sybase dest=/etc/profile.d/tmout.sh mode=0644
+  when: ('SYBASE' in group_names) or ('DELPHIX' in group_names)
+
+# DO NOT USE
+#- name: proxy config 
+#  copy: src=/etc/ansible/files/etc/profile.d/proxy.sh dest=/etc/profile.d/proxy.sh mode=0644
+

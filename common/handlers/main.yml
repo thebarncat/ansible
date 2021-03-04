@@ -1,0 +1,20 @@
+---
+- name: restart_sshd
+  systemd: name=sshd.service state=started enabled=yes
+
+- name: restart_chronyd
+  systemd: name=chronyd.service state=started enabled=yes
+
+- name: restart_syslog
+  systemd: name=rsyslog state=restarted
+
+- name: restart_interface224
+  shell: /sbin/ifdown ens224; /sbin/ifup ens224
+  #shell: /usr/sbin/ip link set dev ens224 down; /usr/sbin/ip link set dev ens224 up
+
+- name: restart_interface225
+  shell: /sbin/ifdown ens225; /sbin/ifup ens225
+  #shell: /usr/sbin/ip link set dev ens225 down; /usr/sbin/ip link set dev ens225 up
+
+- name: restart_interfacebond2
+  shell: /sbin/ifdown bond2; /sbin/ifup bond2

@@ -1,0 +1,80 @@
+# tuning params
+number_of_open_files:  8192
+# memory that will be used for huge pages
+memory_to_reserve_in_mega_bytes: 256
+number_of_huge_pages:            "{{ memory_to_reserve_in_mega_bytes // 2 }}"
+mem_lock:                        "{{ 2048 * (memory_to_reserve_in_mega_bytes // 2) }}"
+
+
+##### SetEnvironmentVariables.sh #####
+root_directory:            "/u01"
+ 
+# Directory where the software to be installed is located
+software_directory:        "/mnt/hgfs/wls_temp"
+    
+# Name of JVM file that is used in the installation
+jvm_file_name:             "jdk-8u31-linux-x64.tar.gz"
+    
+# Name of the WebLogic file that is used in the installation
+weblogic_file_name:        "fmw_12.1.3.0.0_wls.jar"
+    
+# shared directory for the templates that is used by pack and unpack
+templates_directory:       "/mnt/hgfs/wls_temp"
+ 
+# The scripts create files that are placed in this directory
+temporary_directory:       "{{ software_directory }}"
+    
+# WebLogic and JVM installer locations
+jvm_installer:             "{{ software_directory }}/{{ jvm_file_name }}"
+weblogic_installer:        "{{ software_directory }}/{{ weblogic_file_name }}"
+    
+# Base directory
+base_directory:            "{{ root_directory }}/app/oracle"
+ 
+# Directory that will used for the installaton and configuration
+runtime_home:              "{{ base_directory }}/weblogic12.1.3"
+ 
+# Directory where the JVM will be installed
+java_home:                 "{{ runtime_home }}/jdk1.8.0_31"
+# Directory that will be used as the middleware home (holds software binaries)
+middleware_home:           "{{ runtime_home }}/installation"
+    
+# Location of the Oracle inventory
+oracle_inventory_home:     "{{ base_directory }}/oraInventory"
+ 
+# User and Group under which the software needs to be installed
+oracle_install_user:       "weblogic"
+oracle_install_password:   "$6$y718uwhsay612wyq$jnQ8mm4TVWKnEr3NGFhFHh09rE4IyKsdyGTg3q0unKzeb7WvvqnoR6BflkmIEvOctoM0mQ7xXoCqd55dDoZf/0"
+oracle_install_group:      "javainstall"
+oracle_install_group_id:   "1000"
+ 
+# Name of the domain
+#domain_name:               "tryout_domain"
+ 
+# Directory where the configuration will be placed
+configuration_home:        "{{ runtime_home }}/configuration"
+ 
+# Domain home (directory that contains the domain configuration files)
+domain_configuration_home: "{{ configuration_home }}/domains/{{ domain_name }}"
+ 
+# Domain application home (directory in which application related artifacts are placed)
+domain_application_home:   "{{ configuration_home }}/applications/{{ domain_name }}"
+ 
+# Node manager home (directory that contains the node manager configuration files)
+node_manager_home:         "{{ configuration_home }}/nodemanagers/{{ domain_name }}"
+##### files #####
+set_user_overrides_sh:      "{{ domain_configuration_home }}/bin/setUserOverrides.sh"
+set_domain_env_sh:          "{{ domain_configuration_home }}/bin/setDomainEnv.sh"
+config_xml:                 "{{ domain_configuration_home }}/config/config.xml"
+admin_server_lock_file:     "{{ domain_configuration_home }}/servers/{{ admin_server_name }}/data/nodemanager/{{ admin_server_name }}.lck"
+java_security:              "{{ java_home }}/jre/lib/security/java.security"
+node_manager_properties:    "{{ node_manager_home }}/nodemanager.properties"
+node_manager_service:       "/etc/rc.d/init.d/nodemanager"
+node_manager_type:          "CustomLocationNodeManager"
+environment_properties:     "{{ scripts_directory }}/environment.properties"
+setenvironmentvariables_sh: "{{ scripts_directory }}/SetEnvironmentVariables.sh"
+wls_template_file:          "{{ templates_directory }}/{{ domain_name }}.jar"
+silent_install_file:        "{{ temporary_directory }}/silent-weblogic.txt"
+ora_inst_loc:               "{{ temporary_directory }}/oraInst.loc"
+create_basic_domain_py:     "{{ temporary_directory }}/create_basic_domain.py"
+create_deploy_domain_py:    "{{ temporary_directory }}/create_deployment_environment.py"

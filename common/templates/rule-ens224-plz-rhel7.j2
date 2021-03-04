@@ -1,0 +1,32 @@
+iif ens224 table 3
+from {{ ansible_ens224.ipv4.address }} table 3
+# avamar rules
+to 10.130.8.7 table 3
+to 10.130.8.8 table 3
+to 10.130.8.9 table 3
+to 10.130.8.10 table 3
+to 10.130.8.11 table 3
+to 10.130.8.12 table 3
+to 10.130.8.13 table 3
+# fspa21 rules
+to 10.130.95.194 table 3
+to 10.130.95.195 table 3
+to 10.130.77.39 table 3
+to 10.130.77.40 table 3
+to 10.146.95.194 table 3
+to 10.146.95.195 table 3
+to 10.146.77.39 table 3
+to 10.146.77.40 table 3
+# prapp rules
+to 10.146.95.210 table 3
+to 10.146.95.211 table 3
+to 10.130.95.210 table 3
+to 10.130.95.211 table 3
+# norepappsplz - no replication
+to 10.130.95.222 table 3
+to 10.130.95.223 table 3
+# ip2 nas TEMP
+to 10.0.25.230 table 3
+to 10.0.25.231 table 3
+to 10.0.26.64 table 3
+to 10.0.26.65 table 3

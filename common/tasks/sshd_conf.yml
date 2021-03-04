@@ -1,0 +1,14 @@
+- name: remove attr sshd_config
+  command: chattr -i /etc/ssh/sshd_config
+  changed_when: false
+
+- name:  sshd_config file check
+  template:
+    src=sshd_config.j2 dest=/etc/ssh/sshd_config
+    owner=root group=root mode=0600
+    backup=yes
+  notify: restart_sshd
+
+- name: replace attr sshd_config
+  command: chattr +i /etc/ssh/sshd_config
+  changed_when: false

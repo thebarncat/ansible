@@ -1,0 +1,21 @@
+---
+- name: logrotate config task
+  import_tasks: logrotate_conf.yml 
+
+- name: sshd config task
+  import_tasks: sshd_conf.yml
+
+- name: chronyd config task
+  import_tasks: chronyd_conf.yml
+
+- name: network interface config task
+  import_tasks: network_config.yml
+
+- name: syslog config task
+  import_tasks: syslog_config.yml
+
+- name: profile.d config task
+  import_tasks: profile_d.yml
+
+- name: STIG Drift warnings
+  import_tasks: stig-warnings.yml

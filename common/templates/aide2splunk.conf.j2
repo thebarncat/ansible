@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+# #
+$ModLoad imfile
+$InputFileName /var/log/aide/aide.log
+$InputFileTag AIDE
+$InputFileStateFile AIDE-file
+$InputRunFileMonitor
+
+if $syslogtag == 'AIDE' then @@{{splunklog_server}}:1008
